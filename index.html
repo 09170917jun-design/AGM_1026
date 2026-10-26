@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>냠냠클럽 혜택</title>
 <meta name="description" content="냠냠클럽 구독 기간이 길수록 커지는 쿠폰·상품권, 그리고 매달 최대 20,000P 포인트 페이백">
 <style>
@@ -188,13 +193,15 @@
     .how{gap:24px}
   }
 </style>
+</head>
+<body>
 
 <!-- 데스크탑 상단바 -->
 <div class="topbar">
   <div class="wrap">
     <b>냠냠클럽 멤버십 혜택</b>
     <nav><a href="#duration">기간별 혜택</a><a href="#payback">페이백</a><a href="#how">이용방법</a><a href="#faq">FAQ</a></nav>
-    <a class="btn btn-primary" href="#download">앱에서 받기</a>
+    <a class="btn btn-primary" href="#download" data-cta="topbar_cta">앱에서 받기</a>
   </div>
 </div>
 
@@ -209,7 +216,7 @@
         <span>🎟 최대 상품권 10,000원</span>
         <span>💰 매월 최대 20,000P</span>
       </div>
-      <a class="btn btn-primary" href="#download">앱에서 혜택 받기</a>
+      <a class="btn btn-primary" href="#download" data-cta="hero_cta">앱에서 혜택 받기</a>
     </div>
     <div class="hero-art" aria-hidden="true">
       <!-- 폰 화면 + 쿠폰 + 상품권 + 포인트 코인 -->
@@ -363,7 +370,7 @@
   <!-- 혜택 확인 후 바로 행동할 수 있도록 중간 CTA -->
   <div class="cta-band">
     <div><b>이번 달 혜택, 놓치지 마세요</b><span>구독 중인 계정으로 앱에 접속하면 받을 수 있는 혜택이 바로 보여요.</span></div>
-    <a class="btn btn-primary" href="#download">앱에서 내 혜택 확인</a>
+    <a class="btn btn-primary" href="#download" data-cta="mid_band_cta">앱에서 내 혜택 확인</a>
   </div>
 </section>
 
@@ -390,9 +397,9 @@
       </ul>
     </div>
     <div class="stores">
-      <a class="btn btn-primary" id="mainStore" href="#download">앱 다운로드 / 열기</a>
-      <a class="btn btn-ghost" id="ios" href="#download" aria-disabled="true">App Store (샘플 · 링크 없음)</a>
-      <a class="btn btn-ghost" id="android" href="#download" aria-disabled="true">Google Play (샘플 · 링크 없음)</a>
+      <a class="btn btn-primary" id="mainStore" href="#download" data-cta="download_main_cta">앱 다운로드 / 열기</a>
+      <a class="btn btn-ghost" id="ios" href="#download" aria-disabled="true" data-cta="download_ios_cta">App Store (샘플 · 링크 없음)</a>
+      <a class="btn btn-ghost" id="android" href="#download" aria-disabled="true" data-cta="download_android_cta">Google Play (샘플 · 링크 없음)</a>
     </div>
   </div>
 </section>
@@ -419,8 +426,66 @@
 </main>
 
 <!-- 하단 고정 CTA -->
-<div class="sticky" id="sticky"><a class="btn btn-primary" href="#download">앱에서 혜택 확인하기</a></div>
+<div class="sticky" id="sticky"><a class="btn btn-primary" href="#download" data-cta="sticky_cta">앱에서 혜택 확인하기</a></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@amplitude/analytics-browser@2.11.1/lib/scripts/amplitude-min.js"></script>
+<script>
+  // Amplitude 분석. 프로젝트 ID 878965 (브라우저용 API 키. 비밀키는 절대 여기에 넣지 않음)
+  var AMPLITUDE_API_KEY = '5b47642f9e8ac19e17b3caadaa5a2382';
+  var track = function(){};
+  if (window.amplitude && AMPLITUDE_API_KEY && AMPLITUDE_API_KEY.indexOf('YOUR_') !== 0) {
+    window.amplitude.init(AMPLITUDE_API_KEY, { autocapture: { pageViews: true, sessions: true, elementInteractions: false } });
+    track = function(name, props){ try { window.amplitude.track(name, props || {}); } catch(e) {} };
+  }
+
+  // CTA 노출·클릭 수집
+  //  cta_impression: CTA가 화면에 50% 이상 보인 순간, 페이지 방문당 CTA별 1회
+  //  cta_click     : CTA 클릭 (클릭마다)
+  //  공통 속성: cta_id(data-cta), cta_location, cta_label, viewport_width
+  function ctaProps(el){
+    var id = el.getAttribute('data-cta');
+    return { cta_id: id, cta_location: id.replace(/_cta$/, ''), cta_label: el.textContent.trim(), viewport_width: window.innerWidth };
+  }
+  if ('IntersectionObserver' in window) {
+    var ctaSeen = {};
+    var ctaIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        var id = en.target.getAttribute('data-cta');
+        if (en.isIntersecting && !ctaSeen[id]) { ctaSeen[id] = 1; track('cta_impression', ctaProps(en.target)); }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('[data-cta]').forEach(function(el){ ctaIO.observe(el); });
+  }
+  document.addEventListener('click', function(e){
+    var el = e.target.closest && e.target.closest('[data-cta]');
+    if (el) track('cta_click', ctaProps(el));
+  });
+
+  // 섹션 노출 (처음 40% 이상 보였을 때 1회)
+  if ('IntersectionObserver' in window) {
+    var seen = {};
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting && !seen[en.target.id]) { seen[en.target.id] = 1; track('section_view', { section: en.target.id }); }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('main section[id]').forEach(function(sec){ io.observe(sec); });
+  }
+
+  // 페이백 계산기 사용 (조작이 멈춘 뒤 1회)
+  var calcTimer;
+  document.getElementById('amt').addEventListener('input', function(){
+    clearTimeout(calcTimer);
+    calcTimer = setTimeout(function(){
+      track('payback_calc_used', { amount: +document.getElementById('amt').value, payback: document.getElementById('pbOut').textContent });
+    }, 800);
+  });
+
+  // FAQ 펼침
+  document.querySelectorAll('details').forEach(function(d){
+    d.addEventListener('toggle', function(){ if (d.open) track('faq_open', { question: d.querySelector('summary').textContent.trim() }); });
+  });
+</script>
 <script>
   // 금액 → 페이백 계산 (구간·상한은 예시 값, 본문 문구와 동일해야 함)
   var TIERS=[{min:200000,rate:7},{min:100000,rate:5},{min:50000,rate:3}], CAP=20000;
@@ -447,3 +512,5 @@
     new IntersectionObserver(function(e){st.classList.toggle('hide',e[0].isIntersecting)},{threshold:.15}).observe(dl);
   }
 </script>
+</body>
+</html>
