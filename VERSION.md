@@ -14,3 +14,7 @@
 2. CTA 배치
 3. 혜택 일관성 (상단·하단 수치 동일)
 4. 이미지 적합성
+
+## v1.1.0
+- CTA별 노출(`cta_impression`)·클릭(`cta_click`) 수집 추가 (CTA 7종, `data-cta` 속성)
+- 수정: `docs/index.html`에 doctype·viewport 메타가 없어 휴대폰에서 데스크탑 폭으로 보이던 문제
