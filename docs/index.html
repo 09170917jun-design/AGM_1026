@@ -421,6 +421,58 @@
 <!-- 하단 고정 CTA -->
 <div class="sticky" id="sticky"><a class="btn btn-primary" href="#download">앱에서 혜택 확인하기</a></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@amplitude/analytics-browser@2.11.1/lib/scripts/analytics-browser-min.js"></script>
+<script>
+  // Amplitude 분석. 프로젝트 ID 878965 (브라우저용 API 키. 비밀키는 절대 여기에 넣지 않음)
+  var AMPLITUDE_API_KEY = '5b47642f9e8ac19e17b3caadaa5a2382';
+  var track = function(){};
+  if (window.amplitude && AMPLITUDE_API_KEY && AMPLITUDE_API_KEY.indexOf('YOUR_') !== 0) {
+    window.amplitude.init(AMPLITUDE_API_KEY, { autocapture: { pageViews: true, sessions: true, elementInteractions: false } });
+    track = function(name, props){ try { window.amplitude.track(name, props || {}); } catch(e) {} };
+  }
+
+  // CTA 클릭: 어느 위치의 버튼인지 구분
+  function ctaLocation(a){
+    if (a.closest('.topbar')) return 'topbar';
+    if (a.closest('.hero')) return 'hero';
+    if (a.closest('.cta-band')) return 'mid_band';
+    if (a.closest('.sticky')) return 'sticky';
+    if (a.closest('#download')) return 'download';
+    return 'other';
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a.btn');
+    if (!a) return;
+    if (a.id === 'ios' || a.id === 'android') track('store_click', { platform: a.id });
+    else if (a.id === 'mainStore') track('app_open_click', { platform: /iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'ios' : /Android/i.test(navigator.userAgent) ? 'android' : 'desktop' });
+    else track('cta_click', { location: ctaLocation(a), label: a.textContent.trim() });
+  });
+
+  // 섹션 노출 (처음 40% 이상 보였을 때 1회)
+  if ('IntersectionObserver' in window) {
+    var seen = {};
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting && !seen[en.target.id]) { seen[en.target.id] = 1; track('section_view', { section: en.target.id }); }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('main section[id]').forEach(function(sec){ io.observe(sec); });
+  }
+
+  // 페이백 계산기 사용 (조작이 멈춘 뒤 1회)
+  var calcTimer;
+  document.getElementById('amt').addEventListener('input', function(){
+    clearTimeout(calcTimer);
+    calcTimer = setTimeout(function(){
+      track('payback_calc_used', { amount: +document.getElementById('amt').value, payback: document.getElementById('pbOut').textContent });
+    }, 800);
+  });
+
+  // FAQ 펼침
+  document.querySelectorAll('details').forEach(function(d){
+    d.addEventListener('toggle', function(){ if (d.open) track('faq_open', { question: d.querySelector('summary').textContent.trim() }); });
+  });
+</script>
 <script>
   // 금액 → 페이백 계산 (구간·상한은 예시 값, 본문 문구와 동일해야 함)
   var TIERS=[{min:200000,rate:7},{min:100000,rate:5},{min:50000,rate:3}], CAP=20000;
