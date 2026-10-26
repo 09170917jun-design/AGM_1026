@@ -1,0 +1,449 @@
+<title>냠냠클럽 혜택</title>
+<meta name="description" content="냠냠클럽 구독 기간이 길수록 커지는 쿠폰·상품권, 그리고 매달 최대 20,000P 포인트 페이백">
+<style>
+  :root{
+    --mint:#2AC1BC; --mint-dk:#0E8F8A; --mint-bg:#E8F9F8;
+    --ink:#1F2A2E; --sub:#5B6A70; --line:#E3EAEC; --bg:#F6F9F9; --card:#fff;
+    --accent:#FF6B3D; --accent-bg:#FFF1EB; --gold:#FFC83D;
+    --gutter:20px;
+    --goods-bg:#F1ECFF; --goods-fg:#6B4FD8; --on-mint:#06302F; --inv-bg:#1F2A2E; --inv-fg:#F6F9F9;
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --ink:#EEF4F5; --sub:#9DB0B5; --line:#2B3A3F; --bg:#11191C; --card:#182226; --mint-bg:#14302F; --accent-bg:#35221A; --mint-dk:#4FD6D1; --goods-bg:#241E3D; --goods-fg:#B9A6FF; --inv-bg:#1C2A2E; --inv-fg:#EEF4F5; color-scheme:dark } }
+  :root[data-theme="dark"]{ --ink:#EEF4F5; --sub:#9DB0B5; --line:#2B3A3F; --bg:#11191C; --card:#182226; --mint-bg:#14302F; --accent-bg:#35221A; --mint-dk:#4FD6D1; --goods-bg:#241E3D; --goods-fg:#B9A6FF; --inv-bg:#1C2A2E; --inv-fg:#EEF4F5; color-scheme:dark }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:72px}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;word-break:keep-all;
+    padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 var(--gutter)}
+  section{padding:48px 0}
+  h2{font-size:clamp(21px,5.6vw,30px);line-height:1.3;letter-spacing:-.02em;margin-bottom:8px}
+  .eyebrow{display:inline-block;font-size:13px;font-weight:700;color:var(--mint-dk);margin-bottom:10px}
+  .lead{color:var(--sub);font-size:15px;margin-bottom:24px;max-width:640px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:54px;border-radius:14px;padding:0 20px;
+    font-size:17px;font-weight:700;text-decoration:none;border:0;cursor:pointer;width:100%}
+  .btn-primary{background:var(--mint);color:#06302F}
+  .btn-primary:active{transform:scale(.98)}
+  .btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+  :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  svg{display:block}
+
+  /* 데스크탑 상단바 (모바일에서는 숨김, 하단 고정 CTA가 대신함) */
+  .topbar{display:none}
+
+  /* 1. Hero */
+  .hero{background:linear-gradient(160deg,#2AC1BC 0%,#17A19C 100%);color:#fff;padding:40px 0 36px;border-radius:0 0 28px 28px;overflow:hidden}
+  .hero .wrap{display:grid;gap:20px;align-items:center}
+  .badge{display:inline-block;background:rgba(255,255,255,.2);padding:6px 12px;border-radius:99px;font-size:13px;font-weight:700;margin-bottom:16px}
+  .hero h1{font-size:clamp(28px,8.6vw,46px);line-height:1.22;letter-spacing:-.03em;margin-bottom:14px}
+  .hero h1 em{font-style:normal;background:#fff;color:var(--mint-dk);padding:0 8px;border-radius:8px;display:inline-block}
+  .hero p{font-size:clamp(14px,4vw,17px);opacity:.96;margin-bottom:16px}
+  .hero-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+  .hero-chips span{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);padding:6px 12px;border-radius:99px;font-size:13px;font-weight:700}
+  .hero .btn-primary{background:#fff;color:var(--mint-dk)}
+  .hero-art{max-width:340px;width:100%;margin:0 auto}
+  .hero-art svg{width:100%;height:auto;filter:drop-shadow(0 14px 24px rgba(0,60,60,.25))}
+
+  /* 2. Summary */
+  .grid2{display:grid;gap:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+  .sum{display:flex;gap:14px;align-items:flex-start}
+  .ico{flex:none;width:48px;height:48px;border-radius:14px;background:var(--mint-bg);display:grid;place-items:center}
+  .ico.warm{background:var(--accent-bg)}
+  .sum b{display:block;font-size:17px;margin-bottom:2px}
+  .sum .big{font-size:20px;font-weight:800;color:var(--mint-dk);display:block;margin:2px 0 4px}
+  .sum span{font-size:14px;color:var(--sub)}
+
+  /* 3. Timeline (모바일: 세로 / 데스크탑: 가로) */
+  .tl{position:relative;display:grid;gap:14px;padding-left:28px}
+  .tl::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:var(--line)}
+  .step{position:relative}
+  .step::before{content:"";position:absolute;left:-26px;top:22px;width:14px;height:14px;border-radius:50%;background:var(--card);border:3px solid var(--mint)}
+  .step.top{border-color:var(--mint);box-shadow:0 0 0 2px var(--mint-bg)}
+  .step.top::before{background:var(--mint)}
+  .step .when{font-size:13px;font-weight:700;color:var(--mint-dk)}
+  .step h3{font-size:18px;margin:2px 0 12px}
+  .perks{display:grid;gap:8px}
+  .perk{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;position:relative;font-size:14px;font-weight:700;min-height:48px}
+  .perk svg{flex:none;width:28px;height:28px}
+  .perk small{display:block;font-size:12px;font-weight:600;opacity:.8}
+  .perk .qty{margin-left:auto;font-size:13px;font-weight:800;white-space:nowrap}
+  .perk.coupon{background:var(--mint-bg);color:var(--mint-dk);border-left:3px dashed var(--mint)}
+  .perk.gift{background:var(--accent-bg);color:var(--accent)}
+  .perk.goods{background:var(--goods-bg);color:var(--goods-fg)}
+  .note{font-size:12px;color:var(--sub);margin-top:10px}
+
+  /* 4. Payback */
+  .pay{display:grid;gap:20px}
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+  .tier{text-align:center;padding:14px 4px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
+  .tier.on{border-color:var(--mint);background:var(--mint-bg)}
+  .tier small{display:block;font-size:12px;color:var(--sub)}
+  .tier b{display:block;font-size:clamp(18px,5.5vw,24px);color:var(--mint-dk)}
+  .calc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+  .calc label{font-size:14px;color:var(--sub);display:flex;justify-content:space-between;gap:8px;margin-bottom:10px}
+  .calc label b{color:var(--ink);font-size:16px}
+  input[type=range]{width:100%;accent-color:var(--mint);height:32px}
+  .flow{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-top:16px}
+  .flow .box{padding:12px 6px;border-radius:14px;text-align:center;background:var(--bg);border:1px solid var(--line)}
+  .flow .box.out{background:var(--mint-bg);border-color:var(--mint)}
+  .flow small{display:block;font-size:12px;color:var(--sub)}
+  .flow strong{font-size:clamp(16px,5vw,22px);letter-spacing:-.02em}
+  .flow .out strong{color:var(--mint-dk)}
+  .flow svg.arrow{width:24px;height:24px;color:var(--mint)}
+  .rate{margin-top:12px;text-align:center;font-size:14px;font-weight:700;color:var(--mint-dk)}
+  .pay-art{display:none}
+
+  /* 중간 CTA 배너 */
+  .cta-band{margin-top:28px;display:grid;gap:12px;align-items:center;background:var(--inv-bg);color:var(--inv-fg);border-radius:20px;padding:22px}
+  .cta-band b{font-size:18px;display:block}
+  .cta-band span{font-size:14px;opacity:.8}
+
+  /* 5. How */
+  .how{display:grid;gap:12px;margin-top:16px;counter-reset:s}
+  .how li{list-style:none;counter-increment:s;display:flex;gap:14px;align-items:center}
+  .how li::before{content:counter(s);flex:none;width:32px;height:32px;border-radius:50%;background:var(--mint);color:#06302F;font-weight:800;display:grid;place-items:center}
+
+  /* 6. Download */
+  .dl{background:var(--inv-bg);color:var(--inv-fg);border-radius:28px;padding:36px 24px;display:grid;gap:24px}
+  .dl h2{color:inherit}
+  .dl p{opacity:.8;font-size:15px}
+  .recap{list-style:none;display:grid;gap:8px;margin-top:16px}
+  .recap li{display:flex;gap:8px;font-size:14px;font-weight:700}
+  .recap li::before{content:"✓";color:var(--mint)}
+  .stores{display:grid;gap:10px;align-content:center}
+  .dl .btn-ghost{background:transparent;color:inherit;border-color:rgba(255,255,255,.3)}
+
+  /* 7. FAQ */
+  details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:10px}
+  summary{font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px}
+  summary::after{content:"+";color:var(--mint-dk);font-size:20px;line-height:1}
+  details[open] summary::after{content:"–"}
+  details p{margin-top:10px;font-size:14px;color:var(--sub)}
+  .legal{font-size:12px;color:var(--sub);padding-left:16px;display:grid;gap:4px;margin-top:20px}
+
+  /* 하단 고정 CTA (모바일·폴더블) */
+  .sticky{position:fixed;left:0;right:0;bottom:0;z-index:10;padding:12px var(--gutter) calc(12px + env(safe-area-inset-bottom));
+    background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--line);
+    transition:transform .25s}
+  .sticky.hide{transform:translateY(110%)}
+  .sticky .btn{max-width:520px;margin:0 auto}
+
+  /* ---- 폴더블 커버 화면 등 초소형 (≤359px) ---- */
+  @media (max-width:359px){
+    :root{--gutter:14px}
+    section{padding:36px 0}
+    .hero{padding:28px 0 28px}
+    .hero-art{max-width:170px}
+    .hero p{margin-bottom:12px}
+    .hero-chips{margin-bottom:16px}
+    .hero h1{margin-bottom:10px}
+    .badge{margin-bottom:12px}
+    .hero-chips span{font-size:12px;padding:5px 10px}
+    .btn{font-size:15px;min-height:50px}
+    .card,.calc{padding:16px}
+    .perk{font-size:13px;padding:8px 10px}
+    .tier small{font-size:11px}
+    .dl{padding:28px 16px;border-radius:22px}
+    .sum{flex-direction:column;gap:10px}
+  }
+
+  /* ---- 폴더블 펼침 / 태블릿 (≥720px) ---- */
+  @media (min-width:720px){
+    :root{--gutter:32px}
+    section{padding:64px 0}
+    .hero{padding:56px 0 52px;border-radius:0 0 36px 36px}
+    .hero .wrap{grid-template-columns:1.1fr .9fr;gap:32px}
+    .hero-art{max-width:400px}
+    .grid2{grid-template-columns:1fr 1fr}
+    .tl{grid-template-columns:1fr 1fr;padding-left:0}
+    .tl::before{display:none}
+    .step::before{display:none}
+    .cta-band{grid-template-columns:1fr auto;padding:26px 30px}
+    .cta-band .btn{width:260px}
+    .how{grid-template-columns:repeat(3,1fr);gap:16px}
+    .how li{flex-direction:column;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+    .dl{grid-template-columns:1.2fr 1fr;padding:48px 44px;align-items:center}
+  }
+
+  /* ---- 데스크탑 (≥1024px) ---- */
+  @media (min-width:1024px){
+    body{padding-bottom:0}
+    .sticky{display:none}
+    .topbar{display:block;position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .topbar b{font-size:18px;color:var(--mint-dk)}
+    .topbar nav{display:flex;gap:28px;font-size:14px;font-weight:600}
+    .topbar nav a{color:var(--sub);text-decoration:none}
+    .topbar nav a:hover{color:var(--ink)}
+    .topbar .btn{width:auto;min-height:42px;font-size:14px;border-radius:10px}
+    .hero{border-radius:0 0 44px 44px;padding:64px 0 60px}
+    .hero-art{max-width:460px}
+    .hero p{font-size:18px}
+    .hero .btn{display:inline-flex;width:auto;min-width:280px}
+    .tl{grid-template-columns:repeat(4,1fr);gap:16px}
+    .pay{grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+    .pay-art{display:block}
+    .pay-art svg{width:100%;height:auto;max-width:420px;margin:0 auto}
+    .how{gap:24px}
+  }
+</style>
+
+<!-- 데스크탑 상단바 -->
+<div class="topbar">
+  <div class="wrap">
+    <b>냠냠클럽 멤버십 혜택</b>
+    <nav><a href="#duration">기간별 혜택</a><a href="#payback">페이백</a><a href="#how">이용방법</a><a href="#faq">FAQ</a></nav>
+    <a class="btn btn-primary" href="#download">앱에서 받기</a>
+  </div>
+</div>
+
+<!-- 1. 히어로 -->
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="badge">냠냠클럽 구독자 전용 · 학습용 가상 브랜드</span>
+      <h1>구독할수록<br><em>더 커지는</em> 혜택</h1>
+      <p>구독 기간에 따라 쿠폰·상품권을 더 얹어드리고,<br>매달 쓴 금액의 일부는 포인트로 돌려드려요.</p>
+      <div class="hero-chips">
+        <span>🎟 최대 상품권 10,000원</span>
+        <span>💰 매월 최대 20,000P</span>
+      </div>
+      <a class="btn btn-primary" href="#download">앱에서 혜택 받기</a>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <!-- 폰 화면 + 쿠폰 + 상품권 + 포인트 코인 -->
+      <svg viewBox="0 0 340 380" role="img" aria-label="냠냠클럽 앱 화면과 쿠폰, 상품권, 포인트">
+        <rect x="80" y="14" width="180" height="352" rx="30" fill="#1F2A2E"/>
+        <rect x="88" y="24" width="164" height="332" rx="24" fill="#F6F9F9"/>
+        <rect x="88" y="24" width="164" height="78" rx="24" fill="#2AC1BC"/>
+        <rect x="88" y="70" width="164" height="32" fill="#2AC1BC"/>
+        <text x="104" y="58" font-size="13" font-weight="800" fill="#fff" font-family="sans-serif">냠냠클럽 멤버</text>
+        <text x="104" y="84" font-size="11" fill="#fff" opacity=".9" font-family="sans-serif">구독 6개월 차 🎉</text>
+        <!-- 기간 진행바 -->
+        <rect x="104" y="124" width="132" height="6" rx="3" fill="#D5E4E6"/>
+        <rect x="104" y="124" width="84" height="6" rx="3" fill="#2AC1BC"/>
+        <circle cx="104" cy="127" r="6" fill="#2AC1BC"/><circle cx="148" cy="127" r="6" fill="#2AC1BC"/><circle cx="188" cy="127" r="6" fill="#2AC1BC"/><circle cx="236" cy="127" r="6" fill="#fff" stroke="#2AC1BC" stroke-width="3"/>
+        <text x="98" y="148" font-size="9" fill="#5B6A70" font-family="sans-serif">1개월</text>
+        <text x="136" y="148" font-size="9" fill="#5B6A70" font-family="sans-serif">3개월</text>
+        <text x="176" y="148" font-size="9" fill="#5B6A70" font-family="sans-serif">6개월</text>
+        <text x="218" y="148" font-size="9" fill="#5B6A70" font-family="sans-serif">12개월</text>
+        <!-- 쿠폰 -->
+        <rect x="102" y="164" width="136" height="48" rx="10" fill="#E8F9F8" stroke="#2AC1BC" stroke-dasharray="4 3"/>
+        <text x="114" y="185" font-size="15" font-weight="800" fill="#0E8F8A" font-family="sans-serif">7,000원</text>
+        <text x="114" y="201" font-size="10" fill="#0E8F8A" font-family="sans-serif">할인쿠폰 ×3</text>
+        <rect x="102" y="220" width="136" height="48" rx="10" fill="#FFF1EB"/>
+        <text x="114" y="241" font-size="13" font-weight="800" fill="#FF6B3D" font-family="sans-serif">냠냠 상품권</text>
+        <text x="114" y="257" font-size="10" fill="#FF6B3D" font-family="sans-serif">5,000원</text>
+        <rect x="102" y="284" width="136" height="52" rx="10" fill="#fff" stroke="#E3EAEC"/>
+        <text x="114" y="304" font-size="10" fill="#5B6A70" font-family="sans-serif">이번 달 페이백 예정</text>
+        <text x="114" y="325" font-size="17" font-weight="800" fill="#0E8F8A" font-family="sans-serif">+6,000P</text>
+        <!-- 떠있는 상품권 -->
+        <g transform="rotate(-10 290 120)">
+          <rect x="246" y="86" width="86" height="56" rx="10" fill="#FF6B3D"/>
+          <rect x="246" y="108" width="86" height="8" fill="#fff" opacity=".35"/>
+          <text x="258" y="104" font-size="11" font-weight="800" fill="#fff" font-family="sans-serif">GIFT</text>
+          <text x="258" y="134" font-size="13" font-weight="800" fill="#fff" font-family="sans-serif">10,000원</text>
+        </g>
+        <!-- 코인 -->
+        <circle cx="58" cy="290" r="30" fill="#FFC83D"/>
+        <circle cx="58" cy="290" r="23" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="3"/>
+        <text x="58" y="298" text-anchor="middle" font-size="24" font-weight="900" fill="#fff" font-family="sans-serif">P</text>
+        <circle cx="34" cy="326" r="14" fill="#FFC83D" opacity=".85"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- 2. 혜택 요약 -->
+<section id="summary">
+  <span class="eyebrow">한눈에 보기</span>
+  <h2>클럽 멤버라서 받는 두 가지</h2>
+  <p class="lead">따로 신청할 필요 없이, 조건만 채우면 자동으로 지급돼요.</p>
+  <div class="grid2">
+    <div class="card sum">
+      <div class="ico warm"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF6B3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18"/><path d="M12 8c-2-4-6-3-5 0 .5 1.5 3 1 5 0zm0 0c2-4 6-3 5 0-.5 1.5-3 1-5 0z"/></svg></div>
+      <div><b>구독 기간 보너스</b><span class="big">최대 상품권 10,000원</span><span>구독 1·3·6·12개월 차마다 쿠폰·상품권·굿즈가 자동 지급돼요.</span></div>
+    </div>
+    <div class="card sum">
+      <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0E8F8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 8v8M9.5 8h3a2.5 2.5 0 010 5h-3"/></svg></div>
+      <div><b>매달 포인트 페이백</b><span class="big">매월 최대 20,000P</span><span>월 5만원 이상 주문하면 전월 사용 금액의 3~7%를 포인트로 돌려드려요.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 구독 기간별 혜택 -->
+<section id="duration">
+  <span class="eyebrow">구독 기간별 혜택</span>
+  <h2>오래 함께할수록 선물이 커져요</h2>
+  <p class="lead">구독 시작일 기준으로 자동 지급되며, 지급 내역은 쿠폰함·선물함에서 확인해요.</p>
+  <div class="tl">
+
+    <div class="card step"><div class="when">구독 1개월 차</div><h3>웰컴 쿠폰팩</h3>
+      <div class="perks">
+        <div class="perk coupon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a2 2 0 002-2h16a2 2 0 002 2v0a2 2 0 000 6v0a2 2 0 00-2 2H4a2 2 0 00-2-2 2 2 0 000-6z" transform="translate(0 -1)"/><path d="M9 6v12" stroke-dasharray="2 2"/></svg><span>배달비 쿠폰</span><span class="qty">×3장</span></div>
+        <div class="perk coupon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a2 2 0 002-2h16a2 2 0 002 2v0a2 2 0 000 6v0a2 2 0 00-2 2H4a2 2 0 00-2-2 2 2 0 000-6z" transform="translate(0 -1)"/><path d="M9 6v12" stroke-dasharray="2 2"/></svg><span>3,000원 할인쿠폰</span><span class="qty">×1장</span></div>
+      </div></div>
+
+    <div class="card step"><div class="when">구독 3개월 차</div><h3>단골 쿠폰팩</h3>
+      <div class="perks">
+        <div class="perk coupon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a2 2 0 002-2h16a2 2 0 002 2v0a2 2 0 000 6v0a2 2 0 00-2 2H4a2 2 0 00-2-2 2 2 0 000-6z" transform="translate(0 -1)"/><path d="M9 6v12" stroke-dasharray="2 2"/></svg><span>5,000원 할인쿠폰</span><span class="qty">×2장</span></div>
+        <div class="perk gift"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13v6a5 5 0 01-5 5H9a5 5 0 01-5-5V8z"/><path d="M17 10h2a2 2 0 010 4h-2M8 3v2M11 3v2M14 3v2"/></svg><span>커피 기프티콘</span><span class="qty">×1장</span></div>
+      </div></div>
+
+    <div class="card step"><div class="when">구독 6개월 차</div><h3>반년 감사 선물</h3>
+      <div class="perks">
+        <div class="perk coupon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a2 2 0 002-2h16a2 2 0 002 2v0a2 2 0 000 6v0a2 2 0 00-2 2H4a2 2 0 00-2-2 2 2 0 000-6z" transform="translate(0 -1)"/><path d="M9 6v12" stroke-dasharray="2 2"/></svg><span>7,000원 할인쿠폰</span><span class="qty">×3장</span></div>
+        <div class="perk gift"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18"/><path d="M12 8c-2-4-6-3-5 0 .5 1.5 3 1 5 0zm0 0c2-4 6-3 5 0-.5 1.5-3 1-5 0z"/></svg><span>냠냠 상품권 5,000원</span><span class="qty">×1장</span></div>
+      </div></div>
+
+    <div class="card step top"><div class="when">구독 12개월 차 · 최대 혜택</div><h3>1주년 스페셜</h3>
+      <div class="perks">
+        <div class="perk coupon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a2 2 0 002-2h16a2 2 0 002 2v0a2 2 0 000 6v0a2 2 0 00-2 2H4a2 2 0 00-2-2 2 2 0 000-6z" transform="translate(0 -1)"/><path d="M9 6v12" stroke-dasharray="2 2"/></svg><span>10,000원 할인쿠폰</span><span class="qty">×3장</span></div>
+        <div class="perk gift"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18"/><path d="M12 8c-2-4-6-3-5 0 .5 1.5 3 1 5 0zm0 0c2-4 6-3 5 0-.5 1.5-3 1-5 0z"/></svg><span>냠냠 상품권 10,000원</span><span class="qty">×1장</span></div>
+        <div class="perk goods"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l1 13H5L6 8z"/><path d="M9 8a3 3 0 016 0"/></svg><span>스페셜 굿즈</span><span class="qty">×1개</span></div>
+      </div></div>
+
+  </div>
+  <p class="note">※ 위 금액·구성은 학습용 예시입니다.</p>
+</section>
+
+<!-- 4. 페이백 -->
+<section id="payback">
+  <div class="pay">
+    <div>
+      <span class="eyebrow">매월 페이백</span>
+      <h2>쓴 만큼, 다음 달에 돌려받아요</h2>
+      <p class="lead">전월 주문 금액이 5만원을 넘으면, 구간별 비율만큼 포인트로 적립돼요. 적립 포인트는 다음 주문에 바로 쓸 수 있어요.</p>
+
+      <div class="tiers" id="tiers">
+        <div class="tier" data-min="50000"><small>5만원 이상</small><b>3%</b></div>
+        <div class="tier" data-min="100000"><small>10만원 이상</small><b>5%</b></div>
+        <div class="tier" data-min="200000"><small>20만원 이상</small><b>7%</b></div>
+      </div>
+
+      <div class="calc">
+        <label for="amt">지난달 사용 금액 <b id="amtOut">120,000원</b></label>
+        <input id="amt" type="range" min="0" max="400000" step="10000" value="120000">
+        <div class="flow" aria-live="polite">
+          <div class="box"><small>지난달 주문</small><strong id="amtOut2">120,000원</strong></div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          <div class="box out"><small>받는 포인트</small><strong id="pbOut">6,000P</strong></div>
+        </div>
+        <p class="rate" id="rateTxt">적용 비율 5%</p>
+        <p class="note">월 최대 20,000P 적립 · 배달 주문 결제 금액 기준(할인·취소 금액 제외) · 5만원 미만은 적립되지 않아요.</p>
+      </div>
+    </div>
+
+    <!-- 데스크탑 보조 일러스트: 주문 → 포인트 → 다음 주문 -->
+    <div class="pay-art" aria-hidden="true">
+      <svg viewBox="0 0 420 360" role="img" aria-label="주문하면 다음 달 포인트로 돌아오는 흐름">
+        <rect x="30" y="20" width="130" height="150" rx="16" fill="var(--card)" stroke="var(--line)"/>
+        <text x="50" y="52" font-size="13" font-weight="700" fill="var(--sub)" font-family="sans-serif">이번 달 주문</text>
+        <rect x="50" y="66" width="90" height="8" rx="4" fill="var(--line)"/><rect x="50" y="84" width="70" height="8" rx="4" fill="var(--line)"/><rect x="50" y="102" width="80" height="8" rx="4" fill="var(--line)"/>
+        <text x="50" y="148" font-size="20" font-weight="800" fill="var(--ink)" font-family="sans-serif">120,000원</text>
+        <path d="M168 95h24" stroke="#2AC1BC" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 8"/>
+        <path d="M190 85l12 10-12 10" fill="none" stroke="#2AC1BC" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="210" y="20" width="130" height="150" rx="16" fill="#E8F9F8" stroke="#2AC1BC"/>
+        <text x="230" y="52" font-size="13" font-weight="700" fill="#0E8F8A" font-family="sans-serif">다음 달 초</text>
+        <circle cx="275" cy="100" r="26" fill="#FFC83D"/><text x="275" y="109" text-anchor="middle" font-size="26" font-weight="900" fill="#fff" font-family="sans-serif">P</text>
+        <text x="230" y="152" font-size="20" font-weight="800" fill="#0E8F8A" font-family="sans-serif">+6,000P</text>
+        <path d="M210 180v36" stroke="#2AC1BC" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 8"/>
+        <path d="M200 210l10 12 10-12" fill="none" stroke="#2AC1BC" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="80" y="236" width="260" height="96" rx="16" fill="var(--card)" stroke="var(--line)"/>
+        <text x="102" y="268" font-size="13" font-weight="700" fill="var(--sub)" font-family="sans-serif">다음 주문 결제 시</text>
+        <text x="102" y="304" font-size="20" font-weight="800" fill="var(--ink)" font-family="sans-serif">포인트로 바로 차감</text>
+        
+      </svg>
+    </div>
+  </div>
+
+  <!-- 혜택 확인 후 바로 행동할 수 있도록 중간 CTA -->
+  <div class="cta-band">
+    <div><b>이번 달 혜택, 놓치지 마세요</b><span>구독 중인 계정으로 앱에 접속하면 받을 수 있는 혜택이 바로 보여요.</span></div>
+    <a class="btn btn-primary" href="#download">앱에서 내 혜택 확인</a>
+  </div>
+</section>
+
+<!-- 5. 이용 방법 -->
+<section id="how">
+  <span class="eyebrow">이용 방법</span>
+  <h2>3단계면 끝</h2>
+  <ol class="how">
+    <li><span>앱을 열고 <b>냠냠클럽</b> 구독 상태를 확인해요</span></li>
+    <li><span>평소처럼 주문하면 사용 금액이 <b>자동 집계</b>돼요</span></li>
+    <li><span>다음 달 초, <b>포인트</b>와 <b>기간별 선물</b>이 도착해요</span></li>
+  </ol>
+</section>
+
+<!-- 6. 다운로드 CTA -->
+<section id="download">
+  <div class="dl">
+    <div>
+      <h2>지금 앱에서<br>내 혜택 확인하기</h2>
+      <p>구독 중인 계정으로 로그인하면 받을 수 있는 혜택이 바로 보여요.</p>
+      <ul class="recap">
+        <li>구독 1·3·6·12개월 차 쿠폰·상품권·굿즈</li>
+        <li>매월 전월 사용 금액의 3~7% 포인트 (최대 20,000P)</li>
+      </ul>
+    </div>
+    <div class="stores">
+      <a class="btn btn-primary" id="mainStore" href="#download">앱 다운로드 / 열기</a>
+      <a class="btn btn-ghost" id="ios" href="#download" aria-disabled="true">App Store (샘플 · 링크 없음)</a>
+      <a class="btn btn-ghost" id="android" href="#download" aria-disabled="true">Google Play (샘플 · 링크 없음)</a>
+    </div>
+  </div>
+</section>
+
+<!-- 7. FAQ / 유의사항 -->
+<section id="faq">
+  <span class="eyebrow">자주 묻는 질문</span>
+  <h2>궁금한 점</h2>
+  <div style="margin-top:16px;max-width:760px">
+    <details><summary>구독 기간은 어떻게 계산되나요?</summary><p>최초 구독 시작일부터 연속된 구독 개월 수로 계산해요. 해지 후 재가입하면 새로 시작돼요.</p></details>
+    <details><summary>페이백 포인트는 언제 들어오나요?</summary><p>매월 초 전월 주문 금액을 집계해 적립해요. 월 최대 20,000P까지 적립되며, 포인트 내역에서 확인할 수 있어요.</p></details>
+    <details><summary>포인트 유효기간이 있나요?</summary><p>적립일로부터 일정 기간 내 사용 가능해요. 정확한 기간은 포인트 내역에서 확인해 주세요.</p></details>
+    <details><summary>구독을 해지하면 혜택은 어떻게 되나요?</summary><p>해지 시점 이후 예정된 혜택은 지급되지 않아요. 이미 지급된 쿠폰·상품권·포인트는 유효기간 내 사용 가능해요.</p></details>
+  </div>
+  <ul class="legal">
+    <li>이 페이지는 학습 목적으로 만든 가상 브랜드 "냠냠클럽"의 샘플이며, 실제 서비스·혜택과 무관합니다.</li>
+    <li>본 혜택은 냠냠클럽 구독 중인 고객에게만 제공됩니다.</li>
+    <li>일부 쿠폰·상품권은 사용 가능 매장·금액 조건이 있을 수 있습니다.</li>
+    <li>부정 이용이 확인될 경우 혜택이 회수될 수 있습니다.</li>
+    <li>이벤트 내용은 사전 고지 후 변경 또는 종료될 수 있습니다.</li>
+  </ul>
+</section>
+
+</main>
+
+<!-- 하단 고정 CTA -->
+<div class="sticky" id="sticky"><a class="btn btn-primary" href="#download">앱에서 혜택 확인하기</a></div>
+
+<script>
+  // 금액 → 페이백 계산 (구간·상한은 예시 값, 본문 문구와 동일해야 함)
+  var TIERS=[{min:200000,rate:7},{min:100000,rate:5},{min:50000,rate:3}], CAP=20000;
+  var amt=document.getElementById('amt');
+  function won(n){return n.toLocaleString('ko-KR')}
+  function calc(){
+    var v=+amt.value, t=TIERS.find(function(x){return v>=x.min});
+    document.getElementById('amtOut').textContent=won(v)+'원';
+    document.getElementById('amtOut2').textContent=won(v)+'원';
+    document.getElementById('rateTxt').textContent=t?('적용 비율 '+t.rate+'%'):'5만원 이상부터 적립돼요';
+    document.getElementById('pbOut').textContent=won(t?Math.min(Math.floor(v*t.rate/100),CAP):0)+'P';
+    document.querySelectorAll('.tier').forEach(function(el){el.classList.toggle('on',!!t&&+el.dataset.min===t.min)});
+  }
+  amt.addEventListener('input',calc); calc();
+
+  // 기기별 스토어 연결 (샘플: 실제 링크가 생기면 #download 대신 스토어 주소를 넣으세요)
+  var ua=navigator.userAgent, isIOS=/iPhone|iPad|iPod/i.test(ua), isAnd=/Android/i.test(ua);
+  var url=isIOS?document.getElementById('ios').href:isAnd?document.getElementById('android').href:null;
+  if(url) document.getElementById('mainStore').href=url;
+
+  // 다운로드 영역이 보이면 하단 고정 CTA는 숨김 (중복 CTA 방지)
+  var st=document.getElementById('sticky'), dl=document.getElementById('download');
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(e){st.classList.toggle('hide',e[0].isIntersecting)},{threshold:.15}).observe(dl);
+  }
+</script>
