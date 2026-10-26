@@ -435,7 +435,19 @@
   var track = function(){};
   if (window.amplitude && AMPLITUDE_API_KEY && AMPLITUDE_API_KEY.indexOf('YOUR_') !== 0) {
     window.amplitude.init(AMPLITUDE_API_KEY, { autocapture: { pageViews: true, sessions: true, elementInteractions: false } });
-    track = function(name, props){ try { window.amplitude.track(name, props || {}); } catch(e) {} };
+    track = function(name, props){ try { window.amplitude.track(name, Object.assign({}, trafficProps(), props || {})); } catch(e) {} };
+  }
+
+  // 유입 경로: 광고 링크의 UTM 값과 이전 페이지(referrer)로 구분. 모든 이벤트에 같은 속성이 붙음
+  //  예) 앱 내 광고 링크: https://사이트주소/?utm_source=app&utm_medium=in_app_ad&utm_campaign=club_landing
+  function trafficProps(){
+    var q = new URLSearchParams(location.search), host = '';
+    try { host = document.referrer ? new URL(document.referrer).hostname.replace(/^www\./, '') : ''; } catch(e) {}
+    var src = q.get('utm_source') || '', med = q.get('utm_medium') || '', camp = q.get('utm_campaign') || '', channel;
+    if (src || med) channel = /cpc|paid|ad|banner/i.test(med) ? 'paid_ad' : /social/i.test(med) ? 'social' : /email|crm|push/i.test(med) ? 'crm' : 'campaign_other';
+    else if (host) channel = /google|naver|daum|bing/.test(host) ? 'organic_search' : /instagram|facebook|youtube|kakao|twitter|t\.co/.test(host) ? 'social' : 'referral';
+    else channel = 'direct';
+    return { traffic_channel: channel, traffic_source: src || host || '(direct)', traffic_medium: med || '(none)', traffic_campaign: camp || '(none)' };
   }
 
   // CTA 노출·클릭 수집
